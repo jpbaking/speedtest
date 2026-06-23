@@ -6,6 +6,26 @@ No Flash, No Java, No Websocket, No Bullshit.
 
 This is a very lightweight speed test implemented in Javascript, using XMLHttpRequest and Web Workers.
 
+## About this fork
+
+This fork ([jpbaking/speedtest](https://github.com/jpbaking/speedtest)) restyles LibreSpeed with the **lazyway-io-design** system and streamlines it down to a single, modern UI. Notable changes versus upstream:
+
+### Design
+
+* **lazyway-io-design theme** throughout: flat white surfaces, brand blue `#12279E`, accent amber `#D9821F`, IBM Plex Sans + IBM Plex Mono typography, hairline borders, and modest radii.
+* **Modern UI only.** The classic design and the old `index.html` design switcher (`design-switch.js`, `config.json`, `?design=` overrides, the `USE_NEW_DESIGN` env var) have been removed — `index.html` *is* the modern UI.
+* The logo doubles as a **home link**, and the footer uses a blue section link with an amber dot separator.
+* Themed, responsive **share** and **privacy** dialogs that hug their content and behave correctly on narrow screens.
+* The shareable **result image** (`results/index.php`) is redrawn with the lazyway palette and IBM Plex fonts.
+* The **connection stability** page (`stability.html`) is themed to match; its `Server:` selector now hides when an external target (Google, Cloudflare, …) is chosen, since it only applies to local servers.
+* The privacy policy's *Data removal* section reflects an upcoming on-demand deletion feature.
+
+### Deployment
+
+* A hardened `docker-compose.yaml` (kept outside this repo) runs the container `read_only` with dropped Linux capabilities, `tmpfs` mounts for the few writable paths, a named volume for the SQLite telemetry database, and an `.env` file for all runtime configuration.
+
+> Upstream project: [librespeed/speedtest](https://github.com/librespeed/speedtest).
+
 ## Try it
 
 [Take a speed test](https://librespeed.org)
@@ -41,7 +61,7 @@ Works with mobile versions too.
 Assuming you have PHP and a web server installed, the installation steps are quite simple.
 
 1. Download the source code and extract it
-1. Copy the project files to your web server's shared folder (ie. `/var/www/html/speedtest` for Apache). For the current layout, the web root should contain `index.html`, `index-classic.html`, `index-modern.html`, `stability.html`, `design-switch.js`, `config.json`, `speedtest.js`, `speedtest_worker.js`, `stability_worker.js`, `favicon.ico`, and the `backend` folder.
+1. Copy the project files to your web server's shared folder (ie. `/var/www/html/speedtest` for Apache). For the current layout, the web root should contain `index.html`, `stability.html`, `speedtest.js`, `speedtest_worker.js`, `stability_worker.js`, `favicon.ico`, and the `backend` folder.
 1. Also copy the contents of `frontend/` into the same web root so the modern UI assets end up in `styling/`, `javascript/`, `images/`, and `fonts/` next to the HTML files.
 1. Optionally, copy the results folder too, and set up the database using the config file in it.
 1. Be sure your permissions allow read and execute access where needed.
@@ -69,13 +89,9 @@ A .NET client library is available in the [`LibreSpeed.NET`](https://github.com/
 
 If you want to contribute or develop with LibreSpeed, see [DEVELOPMENT.md](DEVELOPMENT.md) for information about using npm for development tasks, linting, and formatting.
 
-## Design switch
-
-LibreSpeed supports both the classic and modern UI. The root `index.html` acts as a lightweight switcher and redirects to `index-classic.html` or `index-modern.html` based on `config.json` (`useNewDesign`) or URL overrides (`?design=new` / `?design=old`). For architecture and deployment details (including Docker behavior), see [DESIGN_SWITCH.md](DESIGN_SWITCH.md).
-
 ## Stability test
 
-LibreSpeed includes a standalone connection stability test at `stability.html`, linked from both the classic and modern interfaces. It repeatedly measures ping over a selected duration and reports current, average, minimum, maximum, jitter, and failed request percentage values with a live chart.
+LibreSpeed includes a standalone connection stability test at `stability.html`, linked from the main interface. It repeatedly measures ping over a selected duration and reports current, average, minimum, maximum, jitter, and failed request percentage values with a live chart.
 
 The stability test can target the local LibreSpeed backend, one of the configured multiple points of test, or built-in external targets such as Google, Cloudflare, and Apple. It also supports optional latency threshold alerts and CSV export of the collected samples. Docker deployments copy `stability.html` and `stability_worker.js` into the web root and reuse the same server list configuration as the main UI.
 
