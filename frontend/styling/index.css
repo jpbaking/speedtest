@@ -6,13 +6,13 @@
  * See https://github.com/librespeed/speedtest/issues/585
  */
 
-@import url("colors.css?v=3");
-@import url("fonts.css");
-@import url("main.css");
-@import url("server-selector.css");
-@import url("button.css");
-@import url("results.css");
-@import url("dialog.css");
+@import url("colors.css?v=4");
+@import url("fonts.css?v=4");
+@import url("main.css?v=4");
+@import url("server-selector.css?v=4");
+@import url("button.css?v=4");
+@import url("results.css?v=4");
+@import url("dialog.css?v=4");
 
 /* Setting up the basic structure */
 

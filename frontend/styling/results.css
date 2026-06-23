@@ -147,7 +147,7 @@ div.gauge {
   &.enabled {
     &.download {
       & > .progress:after {
-        border-color: var(--theme-pink);
+        border-color: var(--gauge-progress-fill-color);
       }
       & > .speed {
         &:before {
@@ -160,7 +160,7 @@ div.gauge {
     }
     &.upload {
       & > .progress:after {
-        border-color: var(--theme-green);
+        border-color: var(--gauge-progress-fill-color);
       }
       & > .speed {
         &:before {

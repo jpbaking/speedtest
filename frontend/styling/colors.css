@@ -37,6 +37,7 @@
 
   --gauge-background-color: var(--line);
   --gauge-progress-color: var(--surface);
+  --gauge-progress-fill-color: var(--accent-amber);
   --gauge-pointer-green: var(--accent-amber);
   --gauge-pointer-pink: var(--accent-amber);
 
