@@ -11,16 +11,16 @@ test.describe('Runtime mode smoke coverage', () => {
 
     const index = await request.get(`${baseUrls.standalone}/index.html`);
     expect(index.ok()).toBeTruthy();
-    await expect(await index.text()).toContain('design-switch.js');
+    await expect(await index.text()).toContain('styling/index.css');
 
     for (const endpoint of ['/backend/empty.php', '/backend/garbage.php', '/backend/getIP.php']) {
       const response = await request.get(`${baseUrls.standalone}${endpoint}`);
       expect(response.ok()).toBeTruthy();
     }
 
-    await page.goto(`${baseUrls.standalone}/index-modern.html`);
+    await page.goto(`${baseUrls.standalone}/index.html`);
     await expect(modernStartButton(page)).toBeVisible();
-    await expect(page.locator('main > p.tagline')).toHaveText(defaultTagline);
+    await expect(page.locator('header > p.tagline')).toHaveText(defaultTagline);
   });
 
   test('backend exposes only local backend contract endpoints', async ({ request }) => {
@@ -38,7 +38,7 @@ test.describe('Runtime mode smoke coverage', () => {
     const localBackendEndpoint = await request.get(`${baseUrls.frontend}/backend/empty.php`);
     expect(localBackendEndpoint.status()).toBe(404);
 
-    await page.goto(`${baseUrls.frontend}/index-modern.html`);
+    await page.goto(`${baseUrls.frontend}/index.html`);
     await expect(modernStartButton(page)).toBeVisible();
     await expect(page.locator('#selected-server')).not.toHaveText(/searching nearest server/i);
   });
@@ -53,7 +53,7 @@ test.describe('Runtime mode smoke coverage', () => {
       expect(response.ok()).toBeTruthy();
     }
 
-    await page.goto(`${baseUrls.dual}/index-modern.html`);
+    await page.goto(`${baseUrls.dual}/index.html`);
     await expect(modernStartButton(page)).toBeVisible();
   });
 });

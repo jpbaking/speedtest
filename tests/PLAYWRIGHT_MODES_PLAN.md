@@ -17,13 +17,8 @@ Build a deterministic Playwright test suite that validates LibreSpeed behavior a
 - `frontend`
 - `dual`
 
-### UI design modes
-- Classic (`index-classic.html`)
-- Modern (`index-modern.html`)
-- Switcher behavior from `index.html`:
-  - default from `config.json` (`useNewDesign`)
-  - `?design=new` override
-  - `?design=old` override
+### UI
+- Single modern design served from `index.html`.
 
 ## Test Strategy
 
@@ -37,7 +32,7 @@ Do not assert real bandwidth numbers. Focus on:
 
 ### 2. Separate test types
 - **Mode smoke tests** (fast, always-run): verify each runtime mode serves the right surfaces.
-- **UI mode tests**: verify classic/modern pages and switcher rules.
+- **UI tests**: verify the modern page renders its expected controls.
 - **Optional flow tests** (later): mock `Speedtest` in browser to simulate state changes and verify UI updates.
 
 ### 3. Use Docker Compose as the environment contract
@@ -47,11 +42,9 @@ Run Playwright against containers started with explicit `MODE` values to mirror 
 
 ### A) `standalone`
 Expectations:
-- `GET /` responds and serves UI (classic by default unless overridden)
+- `GET /` responds and serves the modern UI
 - `GET /backend/empty.php`, `GET /backend/garbage.php`, `GET /backend/getIP.php` available
 - `GET /results/telemetry.php` reachable (even if telemetry disabled behavior differs)
-- `GET /index.html?design=new` resolves to modern page
-- `GET /index.html?design=old` resolves to classic page
 
 ### B) `backend`
 Expectations:
@@ -76,8 +69,6 @@ Expectations:
 ### Files
 - `playwright.config.js`
 - `tests/e2e/modes.spec.js` (runtime-mode smoke)
-- `tests/e2e/design-switch.spec.js` (classic/modern/switch overrides)
-- `tests/e2e/classic-standalone-regression.spec.js` (revert regression guard)
 - `tests/e2e/helpers/env.js` (base URLs + mode metadata)
 - `tests/e2e/helpers/ui.js` (shared selectors, start/abort helpers)
 
@@ -94,7 +85,6 @@ Use role/text selectors anchored on stable labels and IDs already in pages; avoi
 ### Phase 1 (recommended first PR)
 - Add Playwright scaffolding and CI job
 - Add smoke coverage for 4 Docker runtime modes
-- Add design switch tests (`index.html`, `?design=new`, `?design=old`)
 - No full speed measurement assertions
 
 ### Phase 2

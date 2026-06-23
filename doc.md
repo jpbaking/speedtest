@@ -177,10 +177,6 @@ Requirements:
 To install the speed test frontend, copy the project files to your web server and keep the modern UI assets next to the HTML files:
 
 * `index.html`
-* `index-classic.html`
-* `index-modern.html`
-* `design-switch.js`
-* `config.json`
 * `speedtest.js`
 * `speedtest_worker.js`
 * `favicon.ico`
@@ -192,31 +188,14 @@ __Important:__ The speed test needs read and execute permissions in the installa
 
 ##### Server list
 
-Edit `index-classic.html` and uncomment the list of servers:
+The frontend loads its list of test servers from a JSON file. In `index.html` this is configured near the top of the `<head>`:
 
 ```js
-var SPEEDTEST_SERVERS=[
- /*{
-  name:"Example Server 1", //user friendly name for the server
-  server:"//test1.mydomain.com/", //URL to the server. // at the beginning will be replaced with http:// or https:// automatically
-  dlURL:"backend/garbage.php",  //path to download test on this server (garbage.php or replacement)
-  ulURL:"backend/empty.php",  //path to upload test on this server (empty.php or replacement)
-  pingURL:"backend/empty.php",  //path to ping/jitter test on this server (empty.php or replacement)
-  getIpURL:"backend/getIP.php"  //path to getIP on this server (getIP.php or replacement)
- },
- {
-  name:"Example Server 2", //user friendly name for the server
-  server:"//test2.example.com/", //URL to the server. // at the beginning will be replaced with http:// or https:// automatically
-  dlURL:"garbage.php",  //path to download test on this server (garbage.php or replacement)
-  ulURL:"empty.php",  //path to upload test on this server (empty.php or replacement)
-  pingURL:"empty.php",  //path to ping/jitter test on this server (empty.php or replacement)
-  getIpURL:"getIP.php"  //path to getIP on this server (getIP.php or replacement)
- }*/
- //add other servers here, comma separated
-];
+// Set this to a different URL to load the server list from another location.
+var SPEEDTEST_SERVERS = "server-list.json";
 ```
 
-Replace the demo servers with your test points. Each server in the list is an object containing:
+Edit `server-list.json` (or whichever URL you point `SPEEDTEST_SERVERS` at) and replace the demo entry with your own test points. The file is a JSON array of objects, each containing:
 
 * `"name"`: user friendly name for this test point
 * `"server"`: URL to the server. If your server only supports HTTP or HTTPS, put http:// or https:// at the beginning, respectively; if it supports both, put // at the beginning and it will be replaced automatically
@@ -224,6 +203,32 @@ Replace the demo servers with your test points. Each server in the list is an ob
 * `"ulURL"`: path to the upload test on this server (empty.php or replacement)
 * `"pingURL"`: path to the ping test on this server (empty.php or replacement)
 * `"getIpURL"`: path to getIP on this server (getIP.php or replacement)
+* `"id"`: numeric identifier for this server
+
+Example:
+
+```json
+[
+    {
+        "name": "Example Server 1",
+        "server": "//test1.mydomain.com/",
+        "dlURL": "backend/garbage.php",
+        "ulURL": "backend/empty.php",
+        "pingURL": "backend/empty.php",
+        "getIpURL": "backend/getIP.php",
+        "id": 1
+    },
+    {
+        "name": "Example Server 2",
+        "server": "//test2.example.com/",
+        "dlURL": "garbage.php",
+        "ulURL": "empty.php",
+        "pingURL": "empty.php",
+        "getIpURL": "getIP.php",
+        "id": 2
+    }
+]
+```
 
 None of these parameters can be omitted.
 
@@ -231,22 +236,7 @@ __Important__: You can't mix HTTP with HTTPS; if the frontend uses HTTP, you won
 
 __Important__: For HTTPS, all your servers must have valid certificates or the browser will refuse to connect.
 
-If your list of servers changes often, you might not want to have it hardcoded in the HTML file. LibreSpeed can load the server list from a JSON file. To do this, remove the server list and replace it with the URL to your server list, like this:
-
-```js
-var SPEEDTEST_SERVERS="your URL here";
-```
-
-The URL doesn't need to be complete, it can just point to a file in the current directory. The URL should point to a JSON file with the same format used above:
-
-```js
-[
-    {
-        "name":...
-    },
-    ...
-]
-```
+You can also point `SPEEDTEST_SERVERS` at any other URL that returns a JSON array in this format. The URL doesn't need to be complete; it can just point to a file in the current directory.
 
 __Important:__ The same origin policy applies to which URLs you can and cannot load with this method. If possible, it's best to just point it to a file on the current server.
 
