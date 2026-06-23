@@ -37,8 +37,8 @@
 
   --gauge-background-color: var(--line);
   --gauge-progress-color: var(--surface);
-  --gauge-pointer-green: var(--brand-blue-deep);
-  --gauge-pointer-pink: var(--brand-blue-deep);
+  --gauge-pointer-green: var(--accent-amber);
+  --gauge-pointer-pink: var(--accent-amber);
 
   --ping-and-jitter-primary-text-color: var(--ink);
   --ping-and-jitter-secondary-text-color: var(--muted);
