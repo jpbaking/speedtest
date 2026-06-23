@@ -121,6 +121,16 @@ A partial Node.js implementation is available in the `node` branch, developed by
 
 Copyright (C) 2016-2024 Federico Dossena
 
+Modifications Copyright (C) 2026 Joseph Baking
+
+This fork modifies the original LibreSpeed (theming, removal of the
+classic UI/design switcher, themed result and stability pages, and
+deployment changes). The affected files have been changed from their
+upstream versions; see this repository's commit history for the specific
+modifications and their dates. This work remains licensed under the GNU
+Lesser General Public License, version 3 or (at your option) any later
+version.
+
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -133,3 +143,11 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/lgpl>.
+
+### Bundled fonts
+
+This fork bundles the **IBM Plex** font files used to render the shareable
+result image (`results/IBMPlexSans-*.ttf`, `results/IBMPlexMono-*.ttf`).
+IBM Plex is © 2017 IBM Corp. and is licensed separately under the **SIL
+Open Font License, Version 1.1** — see [`results/IBMPlex-OFL.txt`](results/IBMPlex-OFL.txt).
+The web UI additionally loads IBM Plex from Google Fonts at runtime.
