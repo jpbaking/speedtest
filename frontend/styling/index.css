@@ -1,6 +1,7 @@
 /**
  * Design by fromScratch Studio - 2022, 2023 (fromscratch.io)
  * Implementation in HTML/CSS/JS by Timendus - 2024 (https://github.com/Timendus)
+ * Themed to lazyway design system - 2025
  *
  * See https://github.com/librespeed/speedtest/issues/585
  */
@@ -28,11 +29,7 @@ body {
 }
 
 html {
-  background-color: var(--background-backup-color);
-  background-image: url("../images/background.jpeg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  background-color: var(--base);
   font-size: 10px;
 
   @media screen and (max-width: 800px) {
@@ -41,21 +38,48 @@ html {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-sans);
   background-color: var(--background-overlay-color);
   color: var(--primary-text-color);
   display: flex;
   flex-direction: column;
 }
 
-/* Position the logo */
+/* Header — logo left, tagline right */
 
 header {
-  padding: 4rem 7rem;
+  padding: 2rem 5rem;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+
+  & > .logo-link {
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+  }
+
+  & > .tagline {
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: -0.04rem;
+    color: var(--tagline-text-color);
+    text-align: right;
+    margin: 0;
+  }
 
   @media screen and (max-width: 800px) {
-    padding: 7rem 2rem;
-    text-align: center;
+    padding: 2.4rem 2rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+
+    & > .tagline {
+      text-align: center;
+      font-size: 1.3rem;
+    }
   }
 }
 
@@ -63,23 +87,53 @@ header {
 
 footer {
   margin: auto auto 0 auto;
-  padding: 5rem;
+  padding: 4rem 5rem;
+  border-top: 1px solid var(--line);
+  width: 100%;
+  text-align: center;
 
-  & > p.source a {
-    font-size: 1.6rem;
-    font-weight: 700;
-    letter-spacing: -0.1rem;
-    color: var(--theme-green);
-    text-underline-offset: 0.3rem;
-    transition: text-underline-offset 0.2s;
+  & > p.source {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.8rem;
 
-    &:hover {
-      color: var(--theme-pink);
-      text-underline-offset: 0.5rem;
+    & a {
+      font-family: var(--font-mono);
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      text-underline-offset: 0.3rem;
+      transition: color 0.15s;
+
+      &:hover {
+        color: var(--brand-blue);
+      }
+
+      /* Stability test link stays lazyway blue */
+      &.stability {
+        color: var(--brand-blue);
+
+        &:hover {
+          color: var(--brand-blue-deep);
+        }
+      }
+    }
+
+    /* Amber dot separator */
+    & > .dot {
+      flex: none;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: var(--accent-amber);
     }
   }
 
   @media screen and (max-width: 800px) {
-    padding: 4rem;
+    padding: 3rem 2rem;
   }
 }

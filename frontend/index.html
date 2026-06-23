@@ -13,18 +13,18 @@
     <link rel="shortcut icon" href="images/favicon.svg" />
     <script type="text/javascript" src="speedtest.js"></script>
     <script type="text/javascript" src="javascript/index.js"></script>
-    <link rel="stylesheet" type="text/css" href="styling/index.css" />
+    <link rel="stylesheet" type="text/css" href="styling/index.css?v=2" />
     <title>LibreSpeed - Free and Open Source Speedtest</title>
   </head>
 
   <body>
     <header>
-      <img src="images/logo.svg" alt="LibreSpeed" />
+      <a href="./" class="logo-link" aria-label="Home">
+        <img src="images/logo.svg" alt="LibreSpeed" />
+      </a>
+      <p class="tagline">No Flash, No Java, No Websockets, No Bullsh*t</p>
     </header>
     <main>
-      <h1>Free and Open Source Speedtest.</h1>
-      <p class="tagline">No Flash, No Java, No Websockets, No Bullsh*t</p>
-
       <div class="server-selector">
         <div class="chosen">
           <div class="chevron">
@@ -75,8 +75,9 @@
     </main>
     <footer>
       <p class="source">
-        <a href="stability.html">stability test</a> |
-        <a href="https://github.com/librespeed/speedtest">source code</a>
+        <a href="stability.html" class="stability">stability test</a>
+        <span class="dot" aria-hidden="true"></span>
+        <a href="https://github.com/jpbaking/speedtest">source code</a>
       </p>
     </footer>
 
@@ -136,14 +137,16 @@
 
         <h2>Data removal</h2>
         <p>
-          If you want to have your information deleted, you need to provide
-          either the ID of the test or your IP address. This is the only way to
-          identify your data, without this information we won't be able to
-          comply with your request.
+          On-demand data deletion is coming soon. We are building a self-service
+          tool that will let you remove your own test results directly from this
+          site — quickly, and without needing to contact an administrator.
         </p>
         <p>
-          Contact this email address for all deletion requests:
-          <a href="mailto:PUT@YOUR_EMAIL.HERE">TO BE FILLED BY DEVELOPER</a>.
+          <strong>Please note:</strong> this feature is not yet available. Until
+          it launches, stored test results cannot be deleted on request. By
+          running a test, you acknowledge that your data will be retained until
+          the self-service deletion tool is released. We appreciate your
+          patience while we finish building it.
         </p>
       </section>
       <button id="close-privacy">Close</button>

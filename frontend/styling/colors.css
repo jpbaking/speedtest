@@ -1,36 +1,48 @@
 :root {
-  --theme-green: #5cf9fd;
-  --theme-pink: #d63bc6;
+  /* lazyway design system tokens */
+  --brand-blue: #12279E;
+  --brand-blue-deep: #0B1660;
+  --accent-amber: #D9821F;
+  --accent-amber-deep: #9A5A12;
+  --ink: #16182E;
+  --muted: #61657F;
+  --line: #E5E7F1;
+  --surface: #F4F5FB;
+  --base: #FFFFFF;
 
-  --background-backup-color: #0e0720;
-  --background-overlay-color: rgb(41 26 70 / 71%);
+  /* theme aliases — existing CSS files reference these */
+  --theme-green: var(--brand-blue);
+  --theme-pink: var(--brand-blue);
 
-  --primary-text-color: #ffffff;
-  --tagline-text-color: var(--theme-green);
-  --secondary-text-color: #898591;
-  --primary-text-disabled-color: #888888;
-  --secondary-text-disabled-color: #2e7d7f;
+  --background-backup-color: var(--base);
+  --background-overlay-color: transparent;
 
-  --button-text-color: #3e2f50;
-  --button-gradient-1-color-1: #f5f5f5;
-  --button-gradient-1-color-2: var(--theme-green);
-  --button-gradient-1-color-3: var(--theme-pink);
-  --button-shadow-color: #5cf9fd47;
-  --button-disabled-background-color: #a2a2a2;
+  --primary-text-color: var(--ink);
+  --tagline-text-color: var(--accent-amber);
+  --secondary-text-color: var(--muted);
+  --primary-text-disabled-color: var(--muted);
+  --secondary-text-disabled-color: var(--line);
 
-  --server-selector-border-color: #625b6b;
-  --server-selector-hover-border-color: var(--theme-green);
-  --server-selector-background-color: #251b32;
-  --server-selector-hover-background-color: var(--server-selector-border-color);
+  --button-text-color: var(--base);
+  --button-gradient-1-color-1: var(--brand-blue);
+  --button-gradient-1-color-2: var(--brand-blue);
+  --button-gradient-1-color-3: var(--brand-blue-deep);
+  --button-shadow-color: rgba(18, 39, 158, 0.18);
+  --button-disabled-background-color: var(--line);
 
-  --gauge-background-color: #3e2f50;
-  --gauge-progress-color: #726c7a;
-  --gauge-pointer-green: #e2fbfc;
-  --gauge-pointer-pink: #d091ca;
+  --server-selector-border-color: var(--line);
+  --server-selector-hover-border-color: var(--brand-blue);
+  --server-selector-background-color: var(--base);
+  --server-selector-hover-background-color: var(--surface);
 
-  --ping-and-jitter-primary-text-color: #f5f5f5;
-  --ping-and-jitter-secondary-text-color: #7b7b7b;
+  --gauge-background-color: var(--line);
+  --gauge-progress-color: var(--surface);
+  --gauge-pointer-green: var(--brand-blue-deep);
+  --gauge-pointer-pink: var(--brand-blue-deep);
 
-  --popup-background-color: #251b32;
-  --popup-shadow-color: #000000;
+  --ping-and-jitter-primary-text-color: var(--ink);
+  --ping-and-jitter-secondary-text-color: var(--muted);
+
+  --popup-background-color: var(--base);
+  --popup-shadow-color: rgba(11, 22, 96, 0.12);
 }

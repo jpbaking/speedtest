@@ -5,9 +5,7 @@ dialog {
   align-items: center;
   justify-content: center;
   width: 70vw;
-  height: 70vh;
   margin: auto;
-  margin-top: 23rem;
 
   background: var(--popup-background-color);
   border: none;
@@ -36,7 +34,7 @@ dialog {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 4rem;
+    width: auto;
     height: 4rem;
     position: absolute;
     top: 3rem;
@@ -47,8 +45,10 @@ dialog {
 
   & > section {
     max-width: 800px;
+    flex: 1 1 auto;
+    min-height: 0;
     overflow-y: auto;
-    margin: 4rem 2rem 2rem 4rem;
+    margin: 0 1rem 2rem 3rem;
     padding: 0 2rem 0 0;
 
     & h1,
@@ -97,6 +97,43 @@ dialog {
       }
     }
   }
+}
+
+/* Privacy dialog — centered card, hugs content up to 85vh, then the inner
+   <section> scrolls. inset:0 + margin:auto centers it; padding-top reserves
+   a band for the absolutely-positioned close button (X). */
+dialog#privacy {
+  position: fixed;
+  inset: 0;
+  width: min(90vw, 720px);
+  height: fit-content;
+  max-height: 85vh;
+  margin: auto;
+  overflow: hidden;
+  padding: 7rem 1rem 2rem;
+}
+
+/* Share dialog — centered card that hugs its content at every width.
+   Pinned with inset:0 + margin:auto so it centers; fit-content (NOT auto)
+   so the UA `top:0; bottom:0` insets don't stretch it to full height.
+   padding-top clears the absolutely-positioned close button (X). */
+dialog#share {
+  position: fixed;
+  inset: 0;
+  width: fit-content;
+  height: fit-content;
+  max-width: min(90vw, 640px);
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: auto;
+  padding: 7rem 2rem 2rem;
+  gap: 1.6rem;
+}
+
+dialog#share > img#results {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 @keyframes fade-in {
