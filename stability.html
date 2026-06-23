@@ -1,375 +1,526 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
     <meta charset="UTF-8" />
     <title>LibreSpeed - Stability Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <style type="text/css">
-      html,
-      body {
-        border: none;
+      :root {
+        --brand-blue: #12279E;
+        --brand-blue-deep: #0B1660;
+        --accent-amber: #D9821F;
+        --ink: #16182E;
+        --muted: #61657F;
+        --line: #E5E7F1;
+        --surface: #F4F5FB;
+        --base: #FFFFFF;
+        --font-sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+        --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+        --shadow-pop: 0 8px 30px rgba(11, 22, 96, 0.12);
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
         padding: 0;
         margin: 0;
-        background: #ffffff;
-        color: #202020;
       }
+
+      html, body {
+        min-height: 100vh;
+      }
+
+      html {
+        background: var(--base);
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-size: 16px;
+      }
+
       body {
-        text-align: center;
-        font-family: "Roboto", sans-serif;
+        display: flex;
+        flex-direction: column;
       }
-      h1 {
-        color: #404040;
+
+      /* ── Header ─────────────────────────────────────────────────────────── */
+
+      header {
+        padding: 1.6rem 3.2rem;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
       }
-      nav {
-        margin-bottom: 1em;
-      }
-      nav a {
-        color: #6060aa;
+
+      header a {
+        display: flex;
+        align-items: center;
         text-decoration: none;
-        font-size: 0.95em;
       }
-      nav a:hover {
-        text-decoration: underline;
+
+      header img {
+        height: 18px;
+        width: auto;
+        display: block;
       }
+
+      /* ── Main content ───────────────────────────────────────────────────── */
+
+      main {
+        flex: 1;
+        text-align: center;
+        padding: 2.4rem 1.6rem;
+      }
+
+      .page-kicker {
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 2rem;
+      }
+
+      /* ── Controls ───────────────────────────────────────────────────────── */
+
       #controls {
-        margin: 1em auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin: 0 auto 1.25rem;
       }
+
       #durationSelect,
-      #targetSelect {
-        font-size: 1em;
-        padding: 0.3em 0.5em;
-        margin-right: 1em;
-      }
-      #startBtn {
-        display: inline-block;
-        margin: 0 auto;
-        color: #6060aa;
-        background-color: rgba(0, 0, 0, 0);
-        border: 0.15em solid #6060ff;
-        border-radius: 0.3em;
-        transition: all 0.3s;
-        box-sizing: border-box;
-        width: 8em;
-        height: 3em;
-        line-height: 2.7em;
+      #targetSelect,
+      #server {
+        font-family: var(--font-sans);
+        font-size: 0.875rem;
+        color: var(--ink);
+        background: var(--base);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 0.45rem 0.75rem;
         cursor: pointer;
-        box-shadow:
-          0 0 0 rgba(0, 0, 0, 0.1),
-          inset 0 0 0 rgba(0, 0, 0, 0.1);
+        transition: border-color 0.15s;
+        appearance: auto;
       }
-      #startBtn:hover {
-        box-shadow:
-          0 0 2em rgba(0, 0, 0, 0.1),
-          inset 0 0 1em rgba(0, 0, 0, 0.1);
+
+      #durationSelect:hover,
+      #targetSelect:hover,
+      #server:hover {
+        border-color: var(--brand-blue);
       }
+
+      #startBtn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--base);
+        background: var(--brand-blue);
+        border: none;
+        border-radius: 6px;
+        padding: 0 2rem;
+        height: 2.75rem;
+        min-width: 7rem;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(18, 39, 158, 0.18);
+        transition: background 0.15s, transform 0.1s;
+        user-select: none;
+      }
+
+      #startBtn:hover:not(.disabled) {
+        background: var(--brand-blue-deep);
+        transform: scale(1.02);
+      }
+
       #startBtn.disabled {
-        color: #a0a0a0;
-        border-color: #c0c0c0;
+        background: var(--line);
+        color: var(--muted);
         cursor: default;
-        opacity: 0.8;
+        box-shadow: none;
+        transform: none;
       }
-      #startBtn.disabled:hover {
-        box-shadow:
-          0 0 0 rgba(0, 0, 0, 0.1),
-          inset 0 0 0 rgba(0, 0, 0, 0.1);
+
+      #startBtn.running {
+        background: #C0392B;
+        box-shadow: 0 2px 8px rgba(192, 57, 43, 0.25);
       }
-      #startBtn:before {
+
+      #startBtn.running:hover {
+        background: #A93226;
+      }
+
+      #startBtn::before {
         content: "Start";
       }
-      #startBtn.finding:before {
-        content: "Finding...";
+
+      #startBtn.finding::before {
+        content: "Finding…";
       }
-      #startBtn.running {
-        background-color: #ff3030;
-        border-color: #ff6060;
-        color: #ffffff;
-        cursor: pointer;
-        opacity: 1;
-      }
-      #startBtn.running:before {
+
+      #startBtn.running::before {
         content: "Abort";
       }
+
       #resetBtn {
-        display: inline-block;
-        color: #808080;
-        background-color: rgba(0, 0, 0, 0);
-        border: 0.15em solid #a0a0a0;
-        border-radius: 0.3em;
-        transition: all 0.3s;
-        box-sizing: border-box;
-        width: 6em;
-        height: 3em;
-        line-height: 2.7em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--brand-blue);
+        background: transparent;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 0 1.5rem;
+        height: 2.75rem;
+        min-width: 5.5rem;
         cursor: pointer;
-        margin-left: 0.5em;
-        box-shadow:
-          0 0 0 rgba(0, 0, 0, 0.1),
-          inset 0 0 0 rgba(0, 0, 0, 0.1);
+        transition: background 0.15s, border-color 0.15s;
+        user-select: none;
       }
+
       #resetBtn:hover {
-        box-shadow:
-          0 0 2em rgba(0, 0, 0, 0.1),
-          inset 0 0 1em rgba(0, 0, 0, 0.1);
+        background: var(--surface);
+        border-color: var(--brand-blue);
       }
+
+      /* ── Server area ────────────────────────────────────────────────────── */
+
       #serverArea {
-        margin: 0.8em 0;
+        margin: 0.75rem auto;
+        font-size: 0.875rem;
+        color: var(--muted);
       }
-      #server {
-        font-size: 1em;
-        padding: 0.2em;
+
+      /* ── Rating ─────────────────────────────────────────────────────────── */
+
+      #rating {
+        font-family: var(--font-mono);
+        font-size: 0.875rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin: 1rem 0;
       }
+
+      #rating.great { color: var(--brand-blue); }
+      #rating.good  { color: var(--brand-blue-deep); }
+      #rating.poor  { color: var(--accent-amber); }
+      #rating.bad   { color: #C0392B; }
+      #rating.none  { color: var(--muted); }
+
+      /* ── Stats ──────────────────────────────────────────────────────────── */
+
       #test {
-        margin-top: 2em;
-        margin-bottom: 2em;
+        margin: 1.5rem auto 1.75rem;
       }
+
       div.testGroup {
-        display: block;
-        margin: 0 auto;
+        display: inline-flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.25rem 0;
+        margin-bottom: 0.25rem;
       }
+
       div.testArea2 {
         display: inline-block;
-        width: 10em;
-        height: 7em;
-        position: relative;
-        box-sizing: border-box;
+        width: 9rem;
+        padding: 0.75rem 0.5rem;
         text-align: center;
       }
+
       div.testArea2 div.testName {
-        display: block;
-        text-align: center;
-        font-size: 1.4em;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 0.25rem;
       }
+
       div.testArea2 div.meterText {
-        display: inline-block;
-        font-size: 2.5em;
+        font-family: var(--font-sans);
+        font-size: 2rem;
+        font-weight: 300;
+        color: var(--brand-blue);
+        letter-spacing: -0.03em;
+        line-height: 1;
       }
-      div.meterText:empty:before {
+
+      div.meterText:empty::before {
         content: "0.00";
+        color: var(--line);
       }
+
       div.testArea2 div.unit {
-        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-top: 0.2rem;
       }
-      #rating {
-        font-size: 1.3em;
-        font-weight: bold;
-        margin: 0.5em 0;
-      }
-      #rating.great {
-        color: #2ecc71;
-      }
-      #rating.good {
-        color: #27ae60;
-      }
-      #rating.poor {
-        color: #e67e22;
-      }
-      #rating.bad {
-        color: #e74c3c;
-      }
-      #rating.none {
-        color: #808080;
-      }
+
+      /* ── Chart ──────────────────────────────────────────────────────────── */
+
       #chartContainer {
-        margin: 1em auto;
+        margin: 0 auto 1.5rem;
         width: 95%;
-        max-width: 60em;
-        position: relative;
+        max-width: 62rem;
       }
+
       #pingChart {
         width: 100%;
-        height: 280px;
-        border: 1px solid #e0e0e0;
-        border-radius: 4px;
-        background: #fafafa;
-      }
-      #optionalControls {
-        margin: 1.5em auto;
-        max-width: 40em;
-      }
-      #optionalControls label {
+        height: 260px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--surface);
         display: block;
-        margin: 0.5em 0;
       }
+
+      /* ── Optional controls ──────────────────────────────────────────────── */
+
+      #optionalControls {
+        margin: 0 auto 1.5rem;
+        max-width: 38rem;
+      }
+
+      #optionalControls label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        font-size: 0.875rem;
+        color: var(--muted);
+        margin-bottom: 0.75rem;
+      }
+
       #alertThreshold {
+        accent-color: var(--brand-blue);
+        width: 160px;
         vertical-align: middle;
-        width: 200px;
       }
+
+      #thresholdValue {
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        color: var(--ink);
+        min-width: 4rem;
+        text-align: left;
+      }
+
       #downloadCsvBtn {
-        margin-top: 0.8em;
-        font-size: 0.9em;
-        padding: 0.4em 1em;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.5rem 1.25rem;
         cursor: pointer;
-        border: 1px solid #6060aa;
-        background: none;
-        color: #6060aa;
-        border-radius: 0.3em;
+        border: 1px solid var(--brand-blue);
+        background: transparent;
+        color: var(--brand-blue);
+        border-radius: 6px;
+        transition: background 0.15s, color 0.15s;
       }
+
       #downloadCsvBtn:hover {
-        background: #6060aa;
-        color: #ffffff;
+        background: var(--brand-blue);
+        color: var(--base);
       }
-      .footer {
-        margin: 2em 0 1em;
+
+      /* ── Footer ─────────────────────────────────────────────────────────── */
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 1.5rem 3.2rem;
       }
-      .footer a {
-        color: #808080;
-        font-size: 0.85em;
+
+      footer .source {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.8rem;
       }
-      @media all and (max-width: 40em) {
-        body {
-          font-size: 0.8em;
+
+      footer a {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+
+      footer a:hover {
+        color: var(--brand-blue);
+      }
+
+      /* Speed Test link stays lazyway blue */
+      footer a.home {
+        color: var(--brand-blue);
+      }
+
+      footer a.home:hover {
+        color: var(--brand-blue-deep);
+      }
+
+      /* Amber dot separator */
+      footer .dot {
+        flex: none;
+        width: 0.32rem;
+        height: 0.32rem;
+        border-radius: 50%;
+        background: var(--accent-amber);
+      }
+
+      /* ── Responsive ─────────────────────────────────────────────────────── */
+
+      @media (max-width: 600px) {
+        header {
+          padding: 1.25rem 1.25rem;
         }
+
+        main {
+          padding: 1.5rem 0.75rem;
+        }
+
         #pingChart {
-          height: 200px;
+          height: 180px;
         }
-      }
-      @media all and (prefers-color-scheme: dark) {
-        html,
-        body {
-          background: #202020;
-          color: #f4f4f4;
-          color-scheme: dark;
+
+        div.testArea2 {
+          width: 7.5rem;
         }
-        h1 {
-          color: #e0e0e0;
-        }
-        nav a {
-          color: #9090ff;
-        }
-        #pingChart {
-          border-color: #404040;
-          background: #1a1a1a;
-        }
-        a {
-          color: #9090ff;
-        }
-        #startBtn {
-          color: #9090ff;
-          border-color: #7070ff;
-        }
-        #startBtn.disabled {
-          color: #707070;
-          border-color: #505050;
-        }
-        #startBtn.running {
-          background-color: #ff3030;
-          border-color: #ff6060;
-          color: #ffffff;
-        }
-        #resetBtn {
-          color: #a0a0a0;
-          border-color: #606060;
-        }
-        #downloadCsvBtn {
-          color: #9090ff;
-          border-color: #9090ff;
-        }
-        #downloadCsvBtn:hover {
-          background: #9090ff;
-          color: #202020;
-        }
-        .footer a {
-          color: #a0a0a0;
+
+        div.testArea2 div.meterText {
+          font-size: 1.5rem;
         }
       }
     </style>
   </head>
   <body>
-    <h1>LibreSpeed - Stability Test</h1>
-    <nav><a href="./">&larr; Speed Test</a></nav>
+    <header>
+      <a href="./">
+        <img src="images/logo.svg" alt="LibreSpeed" />
+      </a>
+    </header>
 
-    <div id="controls">
-      <select id="durationSelect">
-        <option value="60">60 Seconds</option>
-        <option value="90">90 Seconds</option>
-        <option value="120">2 Minutes</option>
-        <option value="180">3 Minutes</option>
-        <option value="300">5 Minutes</option>
-      </select>
-      <select id="targetSelect" onchange="updateStartButtonState()">
-        <option value="">Local Server</option>
-        <option value="https://www.google.com/generate_204">Google</option>
-        <option value="https://www.cloudflare.com/cdn-cgi/trace">Cloudflare</option>
-        <option value="https://www.apple.com/library/test/success.html">Apple</option>
-      </select>
-      <div id="startBtn" class="disabled finding" onclick="startStop()" aria-disabled="true" title="Finding best server..."></div>
-      <div id="resetBtn" onclick="resetTest()">Reset</div>
-    </div>
+    <main>
+      <div class="page-kicker">Stability Test</div>
 
-    <div id="serverArea" style="display: none">
-      Server:
-      <select id="server" onchange="onServerChange(this.value)"></select>
-    </div>
+      <div id="controls">
+        <select id="durationSelect">
+          <option value="60">60 Seconds</option>
+          <option value="90">90 Seconds</option>
+          <option value="120">2 Minutes</option>
+          <option value="180">3 Minutes</option>
+          <option value="300">5 Minutes</option>
+        </select>
+        <select id="targetSelect" onchange="onTargetChange()">
+          <option value="">Local Server</option>
+          <option value="https://www.google.com/generate_204">Google</option>
+          <option value="https://www.cloudflare.com/cdn-cgi/trace">Cloudflare</option>
+          <option value="https://www.apple.com/library/test/success.html">Apple</option>
+        </select>
+        <div id="startBtn" class="disabled finding" onclick="startStop()" aria-disabled="true" title="Finding best server..."></div>
+        <div id="resetBtn" onclick="resetTest()">Reset</div>
+      </div>
 
-    <div id="rating" class="none">--</div>
+      <div id="serverArea" style="display: none">
+        Server:
+        <select id="server" onchange="onServerChange(this.value)"></select>
+      </div>
 
-    <div id="test">
-      <div class="testGroup">
-        <div class="testArea2">
-          <div class="testName">Current</div>
-          <div id="statCurrent" class="meterText" style="color: #aa6060"></div>
-          <div class="unit">ms</div>
+      <div id="rating" class="none">--</div>
+
+      <div id="test">
+        <div class="testGroup">
+          <div class="testArea2">
+            <div class="testName">Current</div>
+            <div id="statCurrent" class="meterText"></div>
+            <div class="unit">ms</div>
+          </div>
+          <div class="testArea2">
+            <div class="testName">Average</div>
+            <div id="statAvg" class="meterText"></div>
+            <div class="unit">ms</div>
+          </div>
+          <div class="testArea2">
+            <div class="testName">Jitter</div>
+            <div id="statJitter" class="meterText"></div>
+            <div class="unit">ms</div>
+          </div>
         </div>
-        <div class="testArea2">
-          <div class="testName">Average</div>
-          <div id="statAvg" class="meterText" style="color: #aa6060"></div>
-          <div class="unit">ms</div>
-        </div>
-        <div class="testArea2">
-          <div class="testName">Jitter</div>
-          <div id="statJitter" class="meterText" style="color: #aa6060"></div>
-          <div class="unit">ms</div>
+        <div class="testGroup">
+          <div class="testArea2">
+            <div class="testName">Min</div>
+            <div id="statMin" class="meterText"></div>
+            <div class="unit">ms</div>
+          </div>
+          <div class="testArea2">
+            <div class="testName">Max</div>
+            <div id="statMax" class="meterText"></div>
+            <div class="unit">ms</div>
+          </div>
+          <div class="testArea2">
+            <div class="testName">Failed Requests</div>
+            <div id="statLoss" class="meterText"></div>
+            <div class="unit">%</div>
+          </div>
+          <div class="testArea2">
+            <div class="testName">Elapsed</div>
+            <div id="statElapsed" class="meterText">00:00</div>
+            <div class="unit"></div>
+          </div>
         </div>
       </div>
-      <div class="testGroup">
-        <div class="testArea2">
-          <div class="testName">Min</div>
-          <div id="statMin" class="meterText"></div>
-          <div class="unit">ms</div>
-        </div>
-        <div class="testArea2">
-          <div class="testName">Max</div>
-          <div id="statMax" class="meterText"></div>
-          <div class="unit">ms</div>
-        </div>
-        <div class="testArea2">
-          <div class="testName">Failed Requests</div>
-          <div id="statLoss" class="meterText"></div>
-          <div class="unit">%</div>
-        </div>
-        <div class="testArea2">
-          <div class="testName">Elapsed</div>
-          <div id="statElapsed" class="meterText">00:00</div>
-          <div class="unit"></div>
-        </div>
+
+      <div id="chartContainer">
+        <canvas id="pingChart"></canvas>
       </div>
-    </div>
 
-    <div id="chartContainer">
-      <canvas id="pingChart"></canvas>
-    </div>
+      <div id="optionalControls">
+        <label>
+          Alert threshold:
+          <input
+            type="range"
+            id="alertThreshold"
+            min="0"
+            max="500"
+            step="10"
+            value="0"
+            oninput="updateThreshold(this.value)"
+          />
+          <span id="thresholdValue">Off</span>
+        </label>
+        <button id="downloadCsvBtn" onclick="downloadCsv()">Download CSV</button>
+      </div>
+    </main>
 
-    <div id="optionalControls">
-      <label>
-        Alert threshold:
-        <input
-          type="range"
-          id="alertThreshold"
-          min="0"
-          max="500"
-          step="10"
-          value="0"
-          oninput="updateThreshold(this.value)"
-        />
-        <span id="thresholdValue">Off</span>
-      </label>
-      <button id="downloadCsvBtn" onclick="downloadCsv()">Download CSV</button>
-    </div>
-
-    <div class="footer">
-      <a href="https://github.com/librespeed/speedtest">Source code</a>
-    </div>
+    <footer>
+      <p class="source">
+        <a href="./" class="home">← Speed Test</a>
+        <span class="dot" aria-hidden="true"></span>
+        <a href="https://github.com/jpbaking/speedtest">Source code</a>
+      </p>
+    </footer>
 
     <script type="text/javascript">
       function I(i) {
@@ -392,14 +543,7 @@
       var selectedServer = null;
       var localServerReady = false;
       var serverDiscoveryPending = false;
-
-      // Dark mode detection for canvas colors
-      var isDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      try {
-        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
-          isDark = e.matches;
-        });
-      } catch (e) {}
+      var localServersAvailable = false;
 
       // Chart constants
       var VISIBLE_SECONDS = 60;
@@ -407,6 +551,14 @@
       var CHART_PADDING_RIGHT = 15;
       var CHART_PADDING_TOP = 15;
       var CHART_PADDING_BOTTOM = 30;
+
+      // Chart colors (lazyway design system)
+      var CHART_LINE_COLOR = "#12279E";
+      var CHART_FILL_COLOR = "rgba(18,39,158,0.08)";
+      var CHART_GRID_COLOR = "#E5E7F1";
+      var CHART_TEXT_COLOR = "#61657F";
+      var CHART_LOST_COLOR = "#C0392B";
+      var CHART_THRESHOLD_COLOR = "rgba(192,57,43,0.55)";
 
       function joinServerUrl(server, path) {
         if (!server) return path;
@@ -476,11 +628,13 @@
         serverDiscoveryPending = false;
         I("server").innerHTML = "";
         if (SPEEDTEST_SERVERS.length === 0) {
-          I("serverArea").style.display = "none";
+          localServersAvailable = false;
+          updateServerAreaVisibility();
           localServerReady = true;
           updateStartButtonState();
         } else {
-          I("serverArea").style.display = "";
+          localServersAvailable = true;
+          updateServerAreaVisibility();
           serverDiscoveryPending = true;
           I("server").disabled = true;
           var pendingOpt = document.createElement("option");
@@ -542,6 +696,19 @@
       function onServerChange(idx) {
         if (idx === "") return;
         selectedServer = SPEEDTEST_SERVERS[idx];
+        updateStartButtonState();
+      }
+
+      // The "Server:" selector only applies when pinging a Local Server, so hide
+      // it entirely when an external target (Google, Cloudflare, ...) is chosen.
+      function updateServerAreaVisibility() {
+        var externalTarget = I("targetSelect").value;
+        var show = localServersAvailable && !externalTarget;
+        I("serverArea").style.display = show ? "" : "none";
+      }
+
+      function onTargetChange() {
+        updateServerAreaVisibility();
         updateStartButtonState();
       }
 
@@ -736,14 +903,6 @@
         var plotW = cw - padL - padR;
         var plotH = ch - padT - padB;
 
-        // colors based on theme
-        var lineColor = isDark ? "#9090FF" : "#6060AA";
-        var fillColor = isDark ? "rgba(144,144,255,0.15)" : "rgba(96,96,170,0.15)";
-        var gridColor = isDark ? "#404040" : "#E0E0E0";
-        var textColor = isDark ? "#A0A0A0" : "#808080";
-        var lostColor = "#e74c3c";
-        var thresholdColor = "rgba(231,76,60,0.6)";
-
         // determine visible time window
         var data = allPingData;
         var maxTime = 0;
@@ -776,14 +935,14 @@
         yMax = Math.ceil((yMax * 1.2) / 10) * 10; // round up to nearest 10 with 20% headroom
 
         var fontSize = 11 * dp;
-        ctx.font = fontSize + "px sans-serif";
+        ctx.font = fontSize + "px 'IBM Plex Mono', monospace";
         ctx.textBaseline = "middle";
 
         // grid lines - horizontal
         var ySteps = getYSteps(yMax);
-        ctx.strokeStyle = gridColor;
+        ctx.strokeStyle = CHART_GRID_COLOR;
         ctx.lineWidth = dp;
-        ctx.fillStyle = textColor;
+        ctx.fillStyle = CHART_TEXT_COLOR;
         ctx.textAlign = "right";
         for (var s = 0; s < ySteps.length; s++) {
           var yVal = ySteps[s];
@@ -805,22 +964,22 @@
         for (var t = firstTick; t <= timeEnd; t += tickInterval) {
           var x = padL + ((t - timeStart) / timeSpan) * plotW;
           ctx.beginPath();
-          ctx.strokeStyle = gridColor;
+          ctx.strokeStyle = CHART_GRID_COLOR;
           ctx.moveTo(x, padT);
           ctx.lineTo(x, padT + plotH);
           ctx.stroke();
-          ctx.fillStyle = textColor;
+          ctx.fillStyle = CHART_TEXT_COLOR;
           ctx.fillText(fmtTime(t), x, padT + plotH + 4 * dp);
         }
 
         // axis labels
-        ctx.fillStyle = textColor;
+        ctx.fillStyle = CHART_TEXT_COLOR;
         ctx.textAlign = "right";
         ctx.textBaseline = "top";
         ctx.fillText("ms", padL - 5 * dp, padT - 2 * dp);
 
         // plot border
-        ctx.strokeStyle = gridColor;
+        ctx.strokeStyle = CHART_GRID_COLOR;
         ctx.lineWidth = dp;
         ctx.strokeRect(padL, padT, plotW, plotH);
 
@@ -829,7 +988,7 @@
           var threshY = padT + plotH - (alertThresholdMs / yMax) * plotH;
           ctx.save();
           ctx.setLineDash([6 * dp, 4 * dp]);
-          ctx.strokeStyle = thresholdColor;
+          ctx.strokeStyle = CHART_THRESHOLD_COLOR;
           ctx.lineWidth = 1.5 * dp;
           ctx.beginPath();
           ctx.moveTo(padL, threshY);
@@ -873,7 +1032,7 @@
             }
           }
           ctx.closePath();
-          ctx.fillStyle = fillColor;
+          ctx.fillStyle = CHART_FILL_COLOR;
           ctx.fill();
         }
 
@@ -894,7 +1053,7 @@
             ctx.lineTo(px, py);
           }
         }
-        ctx.strokeStyle = lineColor;
+        ctx.strokeStyle = CHART_LINE_COLOR;
         ctx.lineWidth = 2 * dp;
         ctx.lineJoin = "round";
         ctx.stroke();
@@ -905,7 +1064,7 @@
           var px = padL + ((visible[i].t - timeStart) / timeSpan) * plotW;
           ctx.beginPath();
           ctx.arc(px, padT + plotH - 10 * dp, 3 * dp, 0, Math.PI * 2);
-          ctx.fillStyle = lostColor;
+          ctx.fillStyle = CHART_LOST_COLOR;
           ctx.fill();
         }
       }
