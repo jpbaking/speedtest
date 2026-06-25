@@ -39,6 +39,9 @@ cp /speedtest/stability.html /var/www/html/
 # Copy favicon
 cp /speedtest/favicon.ico /var/www/html/
 
+# Copy robots.txt (keep crawlers off the speed test)
+cp /speedtest/robots.txt /var/www/html/
+
 # Set custom webroot on alpine
 if is_alpine; then
   echo "ALPINE IMAGE"

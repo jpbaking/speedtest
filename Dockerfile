@@ -24,6 +24,7 @@ COPY *.js /speedtest/
 COPY index.html /speedtest/
 COPY stability.html /speedtest/
 COPY favicon.ico /speedtest/
+COPY robots.txt /speedtest/
 
 COPY docker/entrypoint.sh /
 

@@ -244,6 +244,7 @@ function drawImage($speedtest)
         $X_WATERMARK, $Y_FOOTER,
         $C_MUTED, $FONT_SMALL, $WATERMARK_TEXT);
 
+    header('X-Robots-Tag: noindex, nofollow');
     header('Content-Type: image/png');
     imagepng($im);
 }

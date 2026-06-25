@@ -1,0 +1,4 @@
+# Keep this speed test out of search engines and off crawlers.
+# Pages also send a noindex meta tag / X-Robots-Tag header.
+User-agent: *
+Disallow: /
