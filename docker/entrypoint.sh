@@ -39,7 +39,7 @@ cp /speedtest/stability.html /var/www/html/
 # Copy favicon
 cp /speedtest/favicon.ico /var/www/html/
 
-# Copy robots.txt (keep crawlers off the speed test)
+# Copy robots.txt (allows crawl so the noindex directives are honored)
 cp /speedtest/robots.txt /var/www/html/
 
 # Set custom webroot on alpine

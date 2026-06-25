@@ -1,4 +1,11 @@
-# Keep this speed test out of search engines and off crawlers.
-# Pages also send a noindex meta tag / X-Robots-Tag header.
+# This speed test must never appear in search results.
+#
+# Crawling is INTENTIONALLY allowed so crawlers can fetch each page and
+# honor its noindex directive (the <meta name="robots"> tag on the HTML
+# pages and the X-Robots-Tag header on results/). A blanket "Disallow: /"
+# would stop crawlers from ever seeing that noindex, and any externally
+# linked URL could still surface in results as a bare link.
+#
+# Do NOT change the line below back to "Disallow: /".
 User-agent: *
-Disallow: /
+Disallow:
